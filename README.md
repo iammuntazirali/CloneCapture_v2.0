@@ -24,6 +24,35 @@ a FastAPI inference service, and PyTorch models and experiments.
 | Input supported by the web app/API | One JPG/JPEG or PNG image, up to 10 MB |
 | Output | Predicted class, real score, fake score, and predicted-class model score |
 
+## Quick start (developer setup)
+
+This project is organized as a small full-stack demo: a React front end sends a user image to a
+FastAPI backend, which loads a trained Xception checkpoint and returns a `REAL`/`FAKE` prediction.
+
+```powershell
+# From the project root
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install -r backend\requirements.txt
+python -m pip install timm scikit-learn
+
+# Place the trained model before starting the API:
+# checkpoints/xception_best.pth
+
+# Terminal 1: API
+python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
+
+# Terminal 2: frontend
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend uses `VITE_API_URL` when present; otherwise it falls back to
+`http://localhost:8000`.
+
 ## What the application does
 
 1. A user selects or drops a JPG/JPEG/PNG image into the web page.
